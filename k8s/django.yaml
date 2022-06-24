@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: was-deploy
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: was
+  template:
+    metadata:
+      labels:
+        app: was
+    spec:
+      containers:
+      - name: was
+        image: kkmee0209/team2_django:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+            cpu: 500m          
+        ports:
+        - containerPort: 8000
+      initContainers:
+      - name: redis-service
+        image: busybox:1.28
+        command: ['sh', '-c', "until nslookup redis-svc.default.svc.cluster.local; do echo waiting for redis-svc; sleep 2; done"]

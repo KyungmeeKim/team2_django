@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: was-hpa
+  namespace: dev
+spec:
+  maxReplicas: 2 # cluster Autoscaling 을 확인하기 위하여 일부러 낮게 설정함
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1beta2
+    kind: Deployment
+    name: was-deploy
+  targetCPUUtilizationPercentage: 20 # Cluster Autoscaling 을 확인하기 위하여 일부러 낮게 설정함

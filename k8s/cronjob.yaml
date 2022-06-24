@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nignx
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: nginx
+            image: nginx
+            imagePullPolicy: Always
+            command: ["/backup/copy.sh"]
+            volumeMounts:
+              - mountPath: /var/log/nginx
+                name: log
+          restartPolicy: OnFailure                         
+          volumes:
+          - name: log
+            nfs:
+              server: # nfs 서버 ip
+              path: /log   # nfs 서버에서 설정해 준 경로   
+
+

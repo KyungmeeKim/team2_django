@@ -1,0 +1,3 @@
+[submodule "docler/django/django-web"]
+	path = docler/django/django-web
+	url = https://github.com/KyungmeeKim/team2_django.git
